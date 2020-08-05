@@ -13,7 +13,7 @@ JavaSE：环境搭建、基础语法、面向对象、数组、集合、常用AP
 
 后端：XML、MVC架构模式、Servlet、Filter、JSP、EL、JSTL、Ajax、代理模式、工厂模式、数据库连接池
 
-项目管理：Maven、Git
+项目管理：Maven（进阶Gradle）、Git
 
 框架：Spring（解耦MVC）、SpringMVC（Servlet进阶）、Mybatis（JDBC进阶）、（Struts2、Hibernate、SSM客户关系管理系统）
 
