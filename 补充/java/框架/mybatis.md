@@ -4,24 +4,30 @@
 ### xml配置
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
     <mapper namespace="com.itheima.dao.IUserDao"> 
-    <!-- 配置查询所有操作 --> 
+    	<!-- 查询所有 --> 
         <select id="findAll" resultType="com.itheima.domain.User"> 
             select * from user 
         </select>
+        
+        <!-- 保存用户，并将生成的id保存到java对象中 -->
         <insert id="saveUser" parameterType="com.itheima.domain.User"> 
-    <!-- 配置保存时获取插入的id -->
-        <selectKey keyColumn="id" keyProperty="id" resultType="int"> 
-        	select last_insert_id(); 
-    	</selectKey>
+            <!-- 配置保存时获取插入的id -->
+            <selectKey keyColumn="id" keyProperty="id" resultType="int"> 
+                select last_insert_id(); 
+            </selectKey>
             insert into user(username,birthday,sex,address) 
             values(#{username},#{birthday},#{sex},#{address}) 
         </insert>
+        
         <!-- 查询总记录条数 --> 
         <select id="findTotal" resultType="int"> 
             select count(*) from user;
 		</select>
+        
+        <!-- 根据部分用户信息查询用户 -->
         <select id="findByUser" resultType="user" parameterType="user">
             select * from user 
             <where>
@@ -35,7 +41,8 @@
         </select>
     </mapper>
 ```
-sql片段
+#### sql片段
+
 ```xml
 <sql id="defaultSql"> 
     select * from user 
@@ -45,7 +52,23 @@ sql片段
 </select>
 ```
 
-一对一
+#### 自定义返回类型
+
+```xml
+<resultMap type="com.zsy.domain.User" id="userMap"> 
+    <id column="id" property="userId"/> 
+    <result column="username" property="userName"/> 
+    <result column="sex" property="userSex"/> 
+    <result column="address" property="userAddress"/>
+    <result column="birthday" property="userBirthday"/> 
+</resultMap> 
+id标签：用于指定主键字段 result标签：用于指定非主键字段 column属性：用于指定数据库列名 property属性：用于指定实体类属性名称
+<select id="findAll" resultMap="userMap"> 
+    select * from user 
+</select>
+```
+
+#### 一对一
 
 ```xml
 <mapper namespace="com.itheima.dao.IAccountDao">
@@ -54,6 +77,7 @@ sql片段
         <id column="aid" property="id"/> 
         <result column="uid" property="uid"/> 
         <result column="money" property="money"/>
+        
         <!-- 它是用于指定从表方的引用实体属性的 --> 
         <association property="user" javaType="user"> 
             <id column="id" property="id"/> 
@@ -62,11 +86,15 @@ sql片段
             <result column="birthday" property="birthday"/> 
             <result column="address" property="address"/> 
         </association> 
-    </resultMap> 
+    </resultMap>
+    
     <select id="findAll" resultMap="accountMap">
-        select u.*,a.id as aid,a.uid,a.money from account a,user u where a.uid =u.id; </select>
+        select u.*,a.id as aid,a.uid,a.money from account a,user u where a.uid =u.id; 
+    </select>
+</mapper>
 ```
-一对多
+#### 一对多
+
 ```xml
 <mapper namespace="com.itheima.dao.IUserDao"> 
     <resultMap type="user" id="userMap"> 
@@ -75,7 +103,8 @@ sql片段
         <result column="address" property="address"/> 
         <result column="sex" property="sex"/> 
         <result column="birthday" property="birthday"/> 
-        <!-- collection是用于建立一对多中集合属性的对应关系 ofType用于指定集合元素的数据类型 --> 			<collection property="accounts" ofType="account"> 
+        <!-- collection是用于建立一对多中集合属性的对应关系 ofType用于指定集合元素的数据类型 -->
+        <collection property="accounts" ofType="account"> 
             <id column="aid" property="id"/> 
             <result column="uid" property="uid"/> 
             <result column="money" property="money"/>
@@ -94,7 +123,7 @@ sql片段
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
     <configuration> 
         <!-- 配置mybatis的环境 --> 
         <environments default="mysql"> 
@@ -114,10 +143,12 @@ sql片段
                     POOLED 使用连接池的数据源 
                     JNDI 使用JNDI实现的数据源-->
               </environment> 
-        </environments> 
+        </environments>
+        
         <!-- 告知mybatis映射配置的位置 --> 
         <mappers>
-        <mapper resource="com/itheima/dao/IUserDao.xml"/></mappers> 
+        	<mapper resource="com/itheima/dao/IUserDao.xml"/>
+        </mappers> 
     </configuration>
 ```
 
@@ -142,30 +173,16 @@ session.commit(); //7.释放资源
 session.close(); 
 in.close();
 ```
-### 自定义返回类型
-
-```xml
-<resultMap type="com.zsy.domain.User" id="userMap"> 
-    <id column="id" property="userId"/> 
-    <result column="username" property="userName"/> 
-    <result column="sex" property="userSex"/> 
-    <result column="address" property="userAddress"/>
-    <result column="birthday" property="userBirthday"/> 
-</resultMap> 
-id标签：用于指定主键字段 result标签：用于指定非主键字段 column属性：用于指定数据库列名 property属性：用于指定实体类属性名称
-<select id="findAll" resultMap="userMap"> 
-    select * from user 
-</select>
-```
-
 
 
 ## 基于注解
 
-配置文件改为
+SqlMapConfig.xml配置文件最后的映射改为
 
 ```xml
-<mappers> <mapper class="com.itheima.dao.IUserDao"/> </mappers>
+<mappers> 
+    <mapper class="com.itheima.dao.IUserDao"/> 
+</mappers>
 ```
 
 Dao文件

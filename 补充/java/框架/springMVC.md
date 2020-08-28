@@ -1,19 +1,20 @@
 # springmvc
 
+
+
 ## 1、xml配置
 
 快速创建maven项目配置
 
 ```java
-archetypeCatalog
-internal
+archetypeCatalog = internal
 ```
 
 
 
 ### web.xml配置
 
-```Java
+```xml
 <!DOCTYPE web-app PUBLIC
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
@@ -55,6 +56,8 @@ internal
 </web-app>
 ```
 
+
+
 ### springmvc.xml配置
 
 ```java 
@@ -79,6 +82,7 @@ internal
         <property name="prefix" value="/WEB-INF/pages/"></property>
         <property name="suffix" value=".jsp"></property>
     </bean>
+    
     <!--配置自定义类型转换器-->
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
@@ -114,6 +118,8 @@ public class StringToDate implements Converter<String, Date> {
 }
 ```
 
+
+
 ## 2、 注解
 
 ```Java
@@ -126,6 +132,8 @@ public class StringToDate implements Converter<String, Date> {
 @PathVariable()//拿到url中的占位符进行赋值
 @CookieValue (value="")//拿到cookie的值
 ```
+
+
 
 ## 3、文件上传
 
@@ -149,7 +157,6 @@ public String fileUpload(HttpServletRequest request, MultipartFile Upload) throw
         file.mkdirs();
     }
     //获取文件名称
-
     String filename = Upload.getOriginalFilename();
     String uuid = UUID.randomUUID().toString().replace("-","");
     filename = filename + uuid;

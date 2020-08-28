@@ -1,6 +1,8 @@
-# ssm配置
+# ssm整合
 
-web.xml
+
+
+## web.xml
 
 ```java
 <?xml version="1.0" encoding="UTF-8"?>
@@ -36,7 +38,9 @@ web.xml
 </beans>
 ```
 
-springmvc.xml
+
+
+## springmvc.xml
 
 ```java
 <?xml version="1.0" encoding="UTF-8"?>
@@ -101,7 +105,9 @@ springmvc.xml
 </beans>
 ```
 
-log4j.properties
+
+
+## log4j.properties
 
 ```java
 # Set root category priority to INFO and its only appender to CONSOLE.
@@ -124,7 +130,9 @@ log4j.appender.LOGFILE.layout=org.apache.log4j.PatternLayout
 log4j.appender.LOGFILE.layout.ConversionPattern=%d{ISO8601} %-6r [%15.15t] %-5p %30.30c %x - %m\n
 ```
 
-applicationContext.xml
+
+
+## applicationContext.xml
 
 ```java
 <?xml version="1.0" encoding="UTF-8"?>
