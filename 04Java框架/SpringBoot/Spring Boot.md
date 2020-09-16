@@ -8,9 +8,7 @@
 >
 > J2EE开发的一站式解决方案；
 
-## 2、微服务
-
-2014，martin fowler
+### 微服务
 
 微服务：架构风格（服务微化）
 
@@ -24,9 +22,7 @@
 
 
 
-## 3、环境准备
-
-http://www.gulixueyuan.com/ 谷粒学院
+### 环境准备
 
 环境约束
 
@@ -38,11 +34,9 @@ http://www.gulixueyuan.com/ 谷粒学院
 
 –SpringBoot 1.5.9.RELEASE：1.5.9；
 
-统一环境；
 
 
-
-### 1、MAVEN设置；
+#### 1、MAVEN设置；
 
 给maven 的settings.xml配置文件的profiles标签添加
 
@@ -61,25 +55,17 @@ http://www.gulixueyuan.com/ 谷粒学院
 </profile>
 ```
 
-### 2、IDEA设置
-
-整合maven进来；
-
-![idea设置](images/搜狗截图20180129151045.png)
+#### 2、IDEA设置
 
 
 
-![images/](images/搜狗截图20180129151112.png)
+## 2、Spring Boot 简单案例
 
-## 4、Spring Boot HelloWorld
-
-一个功能：
-
-浏览器发送hello请求，服务器接受请求并处理，响应Hello World字符串；
+一个功能：浏览器发送hello请求，服务器接受请求并处理，响应Hello World字符串；
 
 
 
-### 1、创建一个maven工程；（jar）
+### 1、创建一个maven工程；
 
 ### 2、导入spring boot相关的依赖
 
@@ -217,8 +203,6 @@ public class HelloWorldMainApplication {
 
 @**SpringBootApplication**:    Spring Boot应用标注在某个类上说明这个类是SpringBoot的主配置类，SpringBoot就应该运行这个类的main方法来启动SpringBoot应用；
 
-
-
 ```java
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -240,8 +224,6 @@ public @interface SpringBootApplication {
 
 ​			配置类 -----  配置文件；配置类也是容器中的一个组件；@Component
 
-
-
 @**EnableAutoConfiguration**：开启自动配置功能；
 
 ​		以前我们需要配置的东西，Spring Boot帮我们自动配置；@**EnableAutoConfiguration**告诉SpringBoot开启自动配置功能；这样自动配置才能生效；
@@ -252,23 +234,23 @@ public @interface SpringBootApplication {
 public @interface EnableAutoConfiguration {
 ```
 
-​      	@**AutoConfigurationPackage**：自动配置包
+@**AutoConfigurationPackage**：自动配置包
 
-​		@**Import**(AutoConfigurationPackages.Registrar.class)：
+@**Import**(AutoConfigurationPackages.Registrar.class)：
 
 ​		Spring的底层注解@Import，给容器中导入一个组件；导入的组件由AutoConfigurationPackages.Registrar.class；
 
 ==将主配置类（@SpringBootApplication标注的类）的所在包及下面所有子包里面的所有组件扫描到Spring容器；==
 
-​	@**Import**(EnableAutoConfigurationImportSelector.class)；
+@**Import**(EnableAutoConfigurationImportSelector.class)；
 
-​		给容器中导入组件？
+给容器中导入组件？
 
-​		**EnableAutoConfigurationImportSelector**：导入哪些组件的选择器；
+​	**EnableAutoConfigurationImportSelector**：导入哪些组件的选择器；
 
-​		将所有需要导入的组件以全类名的方式返回；这些组件就会被添加到容器中；
+​	将所有需要导入的组件以全类名的方式返回；这些组件就会被添加到容器中；
 
-​		会给容器中导入非常多的自动配置类（xxxAutoConfiguration）；就是给容器中导入这个场景需要的所有组件，并配置好这些组件；		![自动配置类](images/搜狗截图20180129224104.png)
+​	会给容器中导入非常多的自动配置类（xxxAutoConfiguration）；就是给容器中导入这个场景需要的所有组件，并配置好这些组件；	![自动配置类](images/搜狗截图20180129224104.png)
 
 有了自动配置类，免去了我们手动编写配置注入功能组件等的工作；
 
@@ -281,10 +263,6 @@ public @interface EnableAutoConfiguration {
 J2EE的整体整合解决方案和自动配置都在spring-boot-autoconfigure-1.5.9.RELEASE.jar；
 
 
-
-​		
-
-==Spring注解版（谷粒学院）==
 
 
 
