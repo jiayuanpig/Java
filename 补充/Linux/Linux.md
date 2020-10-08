@@ -768,9 +768,21 @@ crontab -e
 
 ![Java开发掌握命令](https://upload-images.jianshu.io/upload_images/4924478-11935519dec6d762?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+## 常见的服务类相关命令
+
+**！！！不同版本的命令行会有区别**
+
+管理服务：service 服务名 start/stop/restart/reload/status
+
+查看服务的方法：/etc/init.d/服务名
+
+设置服务自启动：查看chkconfig --list|grep xxx；开启chkconfig --level 5 服务名 on
 
 
-### 常见的shell编程
+
+
+
+## 常见的shell编程
 
 
 
