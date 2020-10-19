@@ -111,23 +111,110 @@ final、static、abstract
 
 
 
-
-
-
-
-## 创建对象的方式（四种）？？？
+## 创建对象的方式（四种）
 
 1. new关键字：创建对象常用的方法
-2. 反射：
-3. 克隆（Clone）：将
+2. 反射
+3. 克隆（Clone）
 4. 序列化
 
 
 
-## 继承时的调用过程？？？
+## 继承时的调用过程
 
-父类构造器
+总结：
 
-子类构造器
+1. 第一部分执行的是父类的静态代码块—子类的静态代码块—主程序。
+   - 这一部分都是**执行一次**，与建立多少对象没有关系。
+2. 第二部分new了一个子类的对象，并调用了方法。
+   - 执行顺序为**父类的非静态代码块—父类的无参构造函数，然后是子类的非静态代码块—子类构造函数—子类的方法。**
 
-父类静态方法。。。
+测试代码：
+
+```java
+//父类
+public class FatherTest {
+    private String name;
+    FatherTest(){
+       System.out.println("--父类的无参构造函数--");
+    }
+    FatherTest(String name){
+       this.name=name;
+       System.out.println("--父类的有参构造函数--"+this.name);
+    }
+    static{
+       System.out.println("--父类的静态代码块--");
+    }
+    {
+       System.out.println("--父类的非静态代码块--");
+    }
+
+    public void speak(){
+       System.out.println("--父类的方法--");
+    }
+    
+    public static void main(String[] args) {
+       System.out.println("--父类主程序--");
+       FatherTest father=new FatherTest("父亲的名字");
+       father.speak();    
+ 	}
+    //结果输出
+    /*
+    --父类的静态代码块--
+	--父类主程序--
+	--父类的非静态代码块--
+	--父类的有参构造函数--父亲的名字
+	--父类的方法—    
+    */
+}
+
+//子类
+public class SonTest extends FatherTest {
+
+    private String name;
+    static{
+       System.out.println("--子类的静态代码块--");
+    }
+    {
+       System.out.println("--子类的非静态代码块--");
+    }
+
+    SonTest(){
+       System.out.println("--子类的无参构造函数--");
+    }   
+    SonTest(String name){
+       this.name=name;
+       System.out.println("--子类的有参构造函数--"+this.name);
+    }
+
+    @Override
+    public void speak(){
+       System.out.println("--子类Override了父类的方法--");
+    }
+    
+    public static void main(String[] args) {
+       System.out.println("--子类主程序--");
+       FatherTest father=new FatherTest("父亲的名字");
+       father.speak();
+       SonTest son=new SonTest("儿子的名字");
+       son.speak();
+	}
+    //结果输出
+    /*
+    --父类的静态代码块--
+    --子类的静态代码块--
+    --子类主程序--
+    --父类的非静态代码块--
+    --父类的有参构造函数--父亲的名字
+    --父类的方法--
+    --父类的非静态代码块--
+    --父类的无参构造函数--
+    --子类的非静态代码块--
+    --子类的有参构造函数--儿子的名字
+    --子类Override了父类的方法--
+    */
+}
+
+
+```
+
